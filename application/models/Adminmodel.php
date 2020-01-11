@@ -24,6 +24,25 @@ class Adminmodel extends CI_Model
     function adddata($data)
     {
         $this->db->insert("post",$data);
+        return redirect("admin/viewallpost");
+    }
+    function allpostdata()
+    {
+       $data= $this->db->get("post");
+       return $data->result_array();
+    }
+    function    singlepost($id)
+    {
+       $edata= $this->db->query("select * from post where id = '$id'");
+        return $edata->result_array();
+//        $this->db->where("id",$id)->get('post');
+    }
+    function updatedata($data)
+    {
+      //  print_r($data);
+        $id= $data['id'];
+        $this->db->where('id', $id)->update('post', $data);
+          return redirect("admin/viewallpost");
     }
 }
 

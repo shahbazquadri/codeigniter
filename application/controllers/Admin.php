@@ -79,7 +79,7 @@ $this->load->model('adminmodel');
 $this->adminmodel->adddata($data);
     
     
-   print_r($data); 
+   
 }
 else
 {
@@ -88,6 +88,68 @@ echo    $error = $this->upload->display_errors();
 
 }
 
+}
+     function viewallpost()
+     {
+         $this->load->model("adminmodel");
+       $data=  $this->adminmodel->allpostdata();
+        $this->load->view("layout/header");
+         $this->load->view("layout/top");
+         $this->load->view("layout/sidebar");
+         $this->load->view("allpost",compact("data"));
+          $this->load->view("layout/footer");
+     }
+    function delete($id)
+    {
+       $this->db->delete('post', array('id' => $id));
+        return redirect("admin/viewallpost");
+    }
+     function edit($id)
+    {
+      $this->load->model("adminmodel");  
+     $edata= $this->adminmodel->singlepost($id); 
+         $this->load->view("layout/header");
+         $this->load->view("layout/top");
+         $this->load->view("layout/sidebar");
+      $this->load->view("editpost",compact("edata")); 
+          $this->load->view("layout/footer");
+    }
+    function updatepost()
+    {
+        if($_FILES['image']['name'])
+        {
+         
+$data=$this->input->post();
+
+$config['upload_path']          = './assets/img';
+$config['allowed_types']        = 'gif|jpg|png';
+    $image_name=uniqid().$_FILES['image']['name'];
+$config['file_name']        =  $image_name;
+
+
+$this->load->library('upload', $config);
+
+if ($this->upload->do_upload('image'))
+{
+ $data['image']=$image_name;
+$this->load->model('adminmodel');
+$this->adminmodel->updatedata($data);
+    
+    
+   
+}
+else
+{
+echo    $error = $this->upload->display_errors();
+
+
+}
+
+    }else{
+            $data= $this->input->post();
+            $this->load->model('adminmodel');
+            $this->adminmodel->updatedata($data);
+        }
 }
 
 }
