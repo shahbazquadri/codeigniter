@@ -2,8 +2,8 @@
 <?php echo form_open_multipart("admin/postdata");?>
         <label for="">Title</label>
         <input type="text" name="title" class="form-control">
-         <label for="">Author</label>
-        <input type="text" name="author"  class="form-control">
+<!--         <label for="">Author</label>-->
+        <input type="text" hidden name="author"  value="<?php echo $_SESSION['user'];?>" class="form-control">
          <label for="">Description</label>
         <textarea name="description" id="" cols="30" rows="10"  class="form-control"></textarea>
         <label for="">Upload Your Image</label>

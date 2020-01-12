@@ -5,6 +5,7 @@ class Adminmodel extends CI_Model
     {
         $this->load->database();
      $this->db->insert("admin",$data);
+     return redirect('admin');
     }
     
     
@@ -14,6 +15,7 @@ class Adminmodel extends CI_Model
   if(  $lq->num_rows()) 
   {
 //      echo "login successfully";
+      $this->session->set_userdata('user', $uname);
       return redirect("admin/dashboard");
   }
         else{
@@ -29,6 +31,11 @@ class Adminmodel extends CI_Model
     function allpostdata()
     {
        $data= $this->db->get("post");
+       return $data->result_array();
+    }
+       function postdata()
+    {
+       $data= $this->db->where('author',$_SESSION['user'])->get("post");
        return $data->result_array();
     }
     function    singlepost($id)

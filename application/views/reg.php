@@ -22,7 +22,7 @@
 <body>
   <div class="container">
       <div class="col-md-7 m-auto">
-       <h1>Registration Form</h1>
+       <h1>Registration Form </h1><a href="<?php echo base_url('admin');?>">Go Back To Login Page</a>
        <?php echo form_open("admin/createaccount"); ?>
        <label for=""> Name</label><span style="color:red">*</span> <?php echo form_error('name', '<span class="alert alert-danger">', '</span>'); ?>
        <input type="text" name="name" class="form-control">

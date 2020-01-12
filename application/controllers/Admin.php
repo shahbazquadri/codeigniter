@@ -46,22 +46,34 @@ $this->Adminmodel->createAccount($data);
     }
     public function dashboard()
     {
+        if(isset($_SESSION['user']))
+        {
          $this->load->view("layout/header");
          $this->load->view("layout/top");
          $this->load->view("layout/sidebar");
          $this->load->view("dashboard");
          $this->load->view("layout/footer");
+        }else{
+            return redirect("admin");
+        }
     }
     public function addpost()
-    {
+    { 
+        if(isset($_SESSION['user']))
+        {
          $this->load->view("layout/header");
          $this->load->view("layout/top");
          $this->load->view("layout/sidebar");
          $this->load->view("addpost");
          $this->load->view("layout/footer");
+             }else{
+            return redirect("admin");
+        }
     }
 function postdata()
 {
+      if(isset($_SESSION['user']))
+        {
 $data=$this->input->post();
 
 $config['upload_path']          = './assets/img';
@@ -87,25 +99,42 @@ echo    $error = $this->upload->display_errors();
 
 
 }
+     }else{
+            return redirect("admin");
+        }
 
 }
      function viewallpost()
      {
+           if(isset($_SESSION['user']))
+        {
          $this->load->model("adminmodel");
-       $data=  $this->adminmodel->allpostdata();
+       $data=  $this->adminmodel->postdata();
         $this->load->view("layout/header");
          $this->load->view("layout/top");
          $this->load->view("layout/sidebar");
          $this->load->view("allpost",compact("data"));
           $this->load->view("layout/footer");
+                }else{
+            return redirect("admin");
+        }
      }
     function delete($id)
     {
+        
+           if(isset($_SESSION['user']))
+        {
        $this->db->delete('post', array('id' => $id));
         return redirect("admin/viewallpost");
+         }else{
+            return redirect("admin");
+        }
     }
      function edit($id)
     {
+         
+           if(isset($_SESSION['user']))
+        {
       $this->load->model("adminmodel");  
      $edata= $this->adminmodel->singlepost($id); 
          $this->load->view("layout/header");
@@ -113,9 +142,14 @@ echo    $error = $this->upload->display_errors();
          $this->load->view("layout/sidebar");
       $this->load->view("editpost",compact("edata")); 
           $this->load->view("layout/footer");
+                 }else{
+            return redirect("admin");
+        }
     }
     function updatepost()
     {
+         if(isset($_SESSION['user']))
+        {
         if($_FILES['image']['name'])
         {
          
@@ -150,7 +184,15 @@ echo    $error = $this->upload->display_errors();
             $this->load->model('adminmodel');
             $this->adminmodel->updatedata($data);
         }
+          }else{
+            return redirect("admin");
+        }
 }
+    function logout()
+    {
+        session_destroy();
+        return redirect("home");
+    }
 
 }
 
